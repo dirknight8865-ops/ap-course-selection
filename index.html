@@ -204,7 +204,6 @@ return doc.output('datauristring');
 }
 
 function downloadPDF(){try{var uri=generatePDF();var link=document.createElement("a");link.href=uri;link.download="AP选课报告.pdf";link.click()}catch(e){alert("PDF功能暂不可用,请用「打印」按钮->另存为PDF")}}
-}
 
 function sendReport(){
 var email=document.getElementById("emailInput").value.trim();
