@@ -6,6 +6,7 @@
 <title>AP 选课推荐系统 IHP 2026-27</title>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("_-3OZxsB9b2xnfwAm")</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f5f7fa;color:#1a1a2e}
@@ -31,8 +32,10 @@ header p{color:#a8b2d1;font-size:14px}
 .pitem input[type="checkbox"]{width:14px;height:14px;pointer-events:none}
 .pitem.chk{border-color:#0f3460;background:#ebf4ff;font-weight:600}
 .btn{padding:8px 28px;background:#0f3460;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer}
-.btn:hover{background:#1a1a2e}.btn2{padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid #0f3460;color:#0f3460;background:#fff}
-.btn2:hover{background:#ebf4ff}.btn-g{padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid #48bb78;color:#22543d;background:#fff}
+.btn:hover{background:#1a1a2e}
+.btn2{padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid #0f3460;color:#0f3460;background:#fff}
+.btn2:hover{background:#ebf4ff}
+.btn-g{padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid #48bb78;color:#22543d;background:#fff}
 .btn-g:hover{background:#c6f6d5}
 .sbar{background:#fff;border-radius:12px;padding:12px 20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.08);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;font-size:13px}
 .sbar .cnt span{color:#0f3460;font-weight:700}
@@ -40,12 +43,9 @@ header p{color:#a8b2d1;font-size:14px}
 .legi{display:flex;align-items:center;gap:4px;font-size:11px;color:#4a5568}
 .ld{width:9px;height:9px;border-radius:50%}.ld.g{background:#48bb78}.ld.y{background:#ecc94b}.ld.r{background:#fc8181}
 table{width:100%;border-collapse:collapse;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.08);background:#fff}
-thead{background:#1a1a2e;color:#fff}
-th{padding:10px 8px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.3px;font-weight:600}
-td{padding:10px 8px;font-size:12px;border-bottom:1px solid #edf2f7}
-tbody tr:hover{background:#f7fafc}
-.gh{background:#edf2f7!important;font-weight:700}
-.gh td{padding:8px;font-size:13px;border-bottom:2px solid #e2e8f0}
+thead{background:#1a1a2e;color:#fff}th{padding:10px 8px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.3px;font-weight:600}
+td{padding:10px 8px;font-size:12px;border-bottom:1px solid #edf2f7}tbody tr:hover{background:#f7fafc}
+.gh{background:#edf2f7!important;font-weight:700}.gh td{padding:8px;font-size:13px;border-bottom:2px solid #e2e8f0}
 .bdg{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700;margin-right:6px}
 .bdg.sc{background:#bee3f8;color:#2a4365}.bdg.ad{background:#fefcbf;color:#744210}.bdg.ar{background:#fbb6ce;color:#702459}.bdg.ss{background:#e9d8fd;color:#44337a}
 .sb{display:inline-flex;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:600}
@@ -66,10 +66,7 @@ tbody tr:hover{background:#f7fafc}
 </head>
 <body>
 <div class="container">
-<header>
-<h1>AP 选课推荐系统 — IHP 2026-27</h1>
-<p>根据 IHP 2026-27 官方选课标准智能评估你的 AP 选课资格</p>
-</header>
+<header><h1>AP 选课推荐系统 — IHP 2026-27</h1><p>根据 IHP 2026-27 官方选课标准智能评估你的 AP 选课资格</p></header>
 <div class="card"><h3>基本信息</h3><div class="row">
 <div class="grp"><label>学生姓名</label><input type="text" id="stuName" placeholder="输入你的姓名"></div>
 <div class="grp"><label>综合 GPA</label><div class="rval" id="gpaD">90</div><input type="range" id="gpa" min="0" max="100" value="90" oninput="gpaD.textContent=this.value"><div class="rlbl"><span>0</span><span>50</span><span>100</span></div></div>
@@ -98,13 +95,8 @@ tbody tr:hover{background:#f7fafc}
 
 <div class="row" style="margin-bottom:20px"><button class="btn" onclick="go()" style="width:100%">评估并开始选课</button></div>
 
-<div class="sbar" id="sbar">
-<div class="cnt">课程 <span id="tc">0</span> | 任选上限 <span id="mx">0</span> 门 | 已选 <span id="sc">0</span> 门 <span id="ch"></span></div>
-<div class="leg">
-<div class="legi"><span class="ld g"></span> 完全匹配</div>
-<div class="legi"><span class="ld y"></span> 部分匹配</div>
-<div class="legi"><span class="ld r"></span> 不匹配</div>
-</div></div>
+<div class="sbar" id="sbar"><div class="cnt">课程 <span id="tc">0</span> | 任选上限 <span id="mx">0</span> 门 | 已选 <span id="sc">0</span> 门 <span id="ch"></span></div>
+<div class="leg"><div class="legi"><span class="ld g"></span> 完全匹配</div><div class="legi"><span class="ld y"></span> 部分匹配</div><div class="legi"><span class="ld r"></span> 不匹配</div></div></div>
 
 <table><thead><tr><th style="width:30px">选</th><th>状态</th><th>AP 课程</th><th>类别</th><th>年级</th><th>语言</th><th>前置/条件</th><th>职业</th></tr></thead><tbody id="tb"></tbody></table>
 
@@ -114,9 +106,9 @@ tbody tr:hover{background:#f7fafc}
 <div class="grp" style="flex:2;min-width:250px"><label>发送到邮箱</label><input type="email" id="emailInput" placeholder="输入邮箱" value="dirknight@163.com"></div>
 <div class="grp" style="flex:1;min-width:120px"><label>&nbsp;</label><button class="btn-g" onclick="sendReport()" style="width:100%">发送报告</button></div></div>
 <div class="row" style="gap:8px;margin-top:4px">
-<button class="btn2" onclick="genReport()">生成报告预览</button>
-<button class="btn2" onclick="copyReport()">复制报告</button>
-<button class="btn2" onclick="window.print()">打印/导出PDF</button>
+<button class="btn2" onclick="genReport()">预览报告</button>
+<button class="btn2" onclick="downloadPDF()">下载 PDF</button>
+<button class="btn2" onclick="window.print()">打印</button>
 </div>
 <div class="report-box" id="reportBox"></div></div>
 </div>
@@ -140,7 +132,6 @@ var C=[
 ];
 
 var _lastSt=null,_lastResult=null;
-
 function hasPre(v){var e=document.querySelector('.pcb[value="'+v+'"]');return e&&e.checked}
 function togglePre(el,ev){
   if(ev.target.type==='checkbox')return;
@@ -156,8 +147,7 @@ function getLang(){var r=parseFloat(document.getElementById('lang').value),t=doc
 function lim(g){if(g>=92)return 3;if(g>=88)return 2;if(g>=85)return 1;return 1}
 
 function evalPre(x,st){
-if(!x.pr)return {ok:true,note:''};
-var p=x.pr;
+if(!x.pr)return{ok:true,note:''};var p=x.pr;
 if(p.t==='alg'){var ok=hasPre('alg')&&st.alg>=p.s;return{ok:ok,note:ok?'通过':(hasPre('alg')?'分数不足':'未修Alg2')}}
 if(p.t==='ipc'){var ok=hasPre('ipc')&&st.ipc>=p.s;return{ok:ok,note:ok?'通过':(hasPre('ipc')?'分数不足':'未修IPC')}}
 if(p.t==='his'){var ok=hasPre('his')&&st.his>=p.s;return{ok:ok,note:ok?'通过':(hasPre('his')?'分数不足':'未修History')}}
@@ -173,31 +163,22 @@ document.getElementById('ch').innerHTML=' <span class="ch '+(st.g>=92?'g':st.g>=
 document.querySelectorAll('.ck').forEach(function(c){c.checked=false});document.getElementById('sc').textContent='0';
 var f=C.filter(function(x){if(st.d==='science')return x.c==='理科'||x.c==='社科';if(st.d==='arts')return x.c==='文科'||x.c==='社科';return true});
 f=f.filter(function(x){return x.grade.indexOf(st.gr)!==-1});
-var m=0,p=0,n=0,tb=document.getElementById('tb');tb.innerHTML='';
-var gs=[];
-var p1=f.filter(function(x){return x.c==='理科'&&x.l==='初级'});
-var p2=f.filter(function(x){return x.c==='理科'&&x.l==='高级'});
-var p3=f.filter(function(x){return x.c==='文科'});
-var p4=f.filter(function(x){return x.c==='社科'});
-if(p1.length)gs.push({l:'理科.初级',s:'sc',cs:p1});
-if(p2.length)gs.push({l:'理科.高级',s:'ad',cs:p2});
-if(p3.length)gs.push({l:'文科',s:'ar',cs:p3});
-if(p4.length)gs.push({l:'社会科学',s:'ss',cs:p4});
+var m=0,p=0,n=0,tb=document.getElementById('tb');tb.innerHTML='';var gs=[];
+var p1=f.filter(function(x){return x.c==='理科'&&x.l==='初级'}),p2=f.filter(function(x){return x.c==='理科'&&x.l==='高级'}),p3=f.filter(function(x){return x.c==='文科'}),p4=f.filter(function(x){return x.c==='社科'});
+if(p1.length)gs.push({l:'理科.初级',s:'sc',cs:p1});if(p2.length)gs.push({l:'理科.高级',s:'ad',cs:p2});if(p3.length)gs.push({l:'文科',s:'ar',cs:p3});if(p4.length)gs.push({l:'社会科学',s:'ss',cs:p4});
 document.getElementById('tc').textContent=f.length;
 gs.forEach(function(g){
 var hd=document.createElement('tr');hd.className='gh';hd.innerHTML='<td colspan="8"><span class="bdg '+g.s+'">'+g.l+'</span>('+g.cs.length+'门)</td>';tb.appendChild(hd);
 g.cs.forEach(function(x){
-var lOk=st.la>=x.la;var pre=evalPre(x,st);var cOk=x.required||st.c==='不确定'||x.cr.indexOf(st.c)!==-1;
-var all=[];if(x.orReq){all.push(lOk||pre.ok);all.push(cOk)}else{all.push(lOk);all.push(pre.ok);all.push(cOk)}
-if(x.entry)all.push(st.bio>=x.entry);
-var met=all.filter(Boolean).length,total=all.length;var ss,sl;
+var lOk=st.la>=x.la,pre=evalPre(x,st),cOk=x.required||st.c==='不确定'||x.cr.indexOf(st.c)!==-1;
+var all=[];if(x.orReq){all.push(lOk||pre.ok);all.push(cOk)}else{all.push(lOk);all.push(pre.ok);all.push(cOk)}if(x.entry)all.push(st.bio>=x.entry);
+var met=all.filter(Boolean).length,total=all.length,ss,sl;
 if(met===total){ss='g';sl='完全匹配';m++}else if(met>=Math.ceil(total/2)){ss='y';sl='部分匹配';p++}else{ss='r';sl='不匹配';n++}
 var ct=x.cr.map(function(cr){return '<span class="ctag'+(cr===st.c?' ok':'')+'">'+cr+'</span>'}).join('');
-var cd=x.c+(x.l?' . '+x.l:'');var rt=x.required?' <span class="rtag">必修</span>':'';
+var cd=x.c+(x.l?' . '+x.l:''),rt=x.required?' <span class="rtag">必修</span>':'';
 var tr=document.createElement('tr');
 tr.innerHTML='<td class="cbox"><input type="checkbox" class="ck"'+(met===total?'':' disabled')+'></td><td><span class="sb '+ss+'">'+sl+'</span></td><td><strong>'+x.n+'</strong>'+rt+'</td><td><span style="font-size:11px;color:#718096">'+cd+'</span></td><td>'+x.grade.join('/')+'</td><td><span class="tg '+(lOk?'g':'r')+'">'+(document.getElementById('langType').value==='ielts'?'IELTS'+x.la+'级':'TOEFL'+x.la+'级')+'</span></td><td>'+(pre.ok?'<span class="tg g">'+pre.note+'</span>':'<span class="tg r">'+pre.note+'</span>')+'</td><td><div class="ctags">'+ct+'</div></td>';
-tb.appendChild(tr);
-});});
+tb.appendChild(tr);});});
 _lastSt=st;_lastResult={f:f,m:m,p:p,n:n,st:st};
 var sb=document.getElementById('sbar'),dt=sb.querySelector('.dt');if(!dt){dt=document.createElement('span');dt.className='dt';sb.querySelector('.cnt').after(dt)}
 dt.innerHTML='<span style="color:#22543d;font-weight:600">完全匹配 '+m+'</span><span style="margin:0 5px;color:#a0aec0">|</span><span style="color:#744210;font-weight:600">部分匹配 '+p+'</span><span style="margin:0 5px;color:#a0aec0">|</span><span style="color:#9b2c2c;font-weight:600">不匹配 '+n+'</span><span style="margin:0 5px;color:#a0aec0">|</span><span style="color:#0f3460;font-weight:600">已选 <span id="sc2">0</span></span>';
@@ -207,28 +188,40 @@ document.addEventListener('change',function(e){if(e.target.classList.contains('c
 
 function buildReport(){
 if(!_lastResult)return '请先点击"评估并开始选课"生成结果。';
-var st=_lastSt,r=_lastResult,lt=document.getElementById('langType'),nm=document.getElementById('stuName').value||'(未填写)';
-var s='========================================\n  AP 课程选课报告 — IHP 2026-27\n========================================\n\n【基本信息】\n  姓名：'+nm+'\n  综合 GPA：'+st.g+' 分\n  年级：'+st.gr+'\n  语言考试：'+(lt.value==='ielts'?'IELTS':'TOEFL')+' '+document.getElementById('langD').textContent+'\n  方向偏好：'+(st.d==='science'?'偏理科':'偏文科')+'\n  职业方向：'+st.c+'\n\n【前置课程】\n  Algebra 2：'+(hasPre('alg')?'已修, '+st.alg+'分':'未修')+'\n  IPC：'+(hasPre('ipc')?'已修, '+st.ipc+'分':'未修')+'\n  AP Physics 1：'+(hasPre('ap1')?'已考, '+st.ap+'分':'未考')+'\n  History：'+(hasPre('his')?'已修, '+st.his+'分':'未修')+'\n\n【评估结果】\n  可任选 '+document.getElementById('mx').textContent+' 门\n  完全匹配：'+r.m+' 门\n  部分匹配：'+r.p+' 门\n  不匹配：'+r.n+' 门\n\n【推荐课程（完全匹配）】\n';
-r.f.forEach(function(x){var pre=evalPre(x,st);var lOk=st.la>=x.la;var cOk=x.required||st.c==='不确定'||x.cr.indexOf(st.c)!==-1;var all=[];if(x.orReq){all.push(lOk||pre.ok);all.push(cOk)}else{all.push(lOk);all.push(pre.ok);all.push(cOk)}if(x.entry)all.push(st.bio>=x.entry);if(all.filter(Boolean).length===all.length){s+='  ['+(x.required?'必修':'推荐')+'] '+x.n+' ('+x.c+(x.l?' . '+x.l:'')+') 年级:'+x.grade.join('/')+' '+(lt.value==='ielts'?'IELTS'+x.la+'级':'TOEFL'+x.la+'级')+'\n'}});
-s+='\n========================================\n  报告生成时间：'+new Date().toLocaleString('zh-CN')+'\n========================================';
+var st=_lastSt,r=_lastResult,lt=document.getElementById('langType'),nm=document.getElementById('stuName').value||'(未填)';
+var s='========================================\n  AP 课程选课报告 — IHP 2026-27\n========================================\n\n【基本信息】\n  姓名：'+nm+'\n  综合 GPA：'+st.g+' 分\n  年级：'+st.gr+'\n  语言：'+(lt.value==='ielts'?'IELTS':'TOEFL')+' '+document.getElementById('langD').textContent+'\n  方向：'+(st.d==='science'?'偏理科':'偏文科')+'\n  职业：'+st.c+'\n\n【前置课程】\n  Alg2：'+(hasPre('alg')?'已修 '+st.alg+'分':'未修')+' | IPC：'+(hasPre('ipc')?'已修 '+st.ipc+'分':'未修')+' | AP Ph1：'+(hasPre('ap1')?'已考 '+st.ap+'分':'未考')+' | His：'+(hasPre('his')?'已修 '+st.his+'分':'未修')+'\n\n【评估结果】  可任选 '+document.getElementById('mx').textContent+' 门 | 完全匹配：'+r.m+' | 部分匹配：'+r.p+' | 不匹配：'+r.n+'\n\n【推荐课程（完全匹配）】\n';
+r.f.forEach(function(x){var pre=evalPre(x,st),lOk=st.la>=x.la,cOk=x.required||st.c==='不确定'||x.cr.indexOf(st.c)!==-1;var all=[];if(x.orReq){all.push(lOk||pre.ok);all.push(cOk)}else{all.push(lOk);all.push(pre.ok);all.push(cOk)}if(x.entry)all.push(st.bio>=x.entry);if(all.filter(Boolean).length===all.length){s+='  '+(x.required?'[必修]':'[推荐]')+' '+x.n+' ('+x.c+(x.l?' . '+x.l:'')+') '+x.grade.join('/')+' '+(lt.value==='ielts'?'IELTS'+x.la+'级':'TOEFL'+x.la+'级')+'\n'}});
+s+='\n生成时间：'+new Date().toLocaleString('zh-CN')+'\n';
 return s;
 }
+
 function genReport(){var box=document.getElementById('reportBox');box.textContent=buildReport();box.classList.add('show')}
-function copyReport(){navigator.clipboard.writeText(buildReport()).then(function(){alert('报告已复制到剪贴板！')}).catch(function(){alert('复制失败，请手动选择文本复制')})}
+function copyReport(){navigator.clipboard.writeText(buildReport()).then(function(){alert('报告已复制到剪贴板！')}).catch(function(){alert('复制失败')})}
+
+function generatePDF(){
+var text=buildReport(),{jsPDF}=window.jspdf,doc=new jsPDF();
+doc.setFontSize(10);var lines=doc.splitTextToSize(text,180);doc.text(lines,15,15);
+return doc.output('datauristring');
+}
+
+function downloadPDF(){
+var link=document.createElement('a');link.href=generatePDF();link.download='AP选课报告.pdf';link.click();
+}
 
 function sendReport(){
 var email=document.getElementById('emailInput').value.trim();
 if(!email||!email.includes('@')){alert('请输入有效的邮箱地址');return}
-var content=buildReport();
-var btn=document.querySelector('.btn-g');btn.textContent='发送中...';btn.disabled=true;
+var text=buildReport(),btn=document.querySelector('.btn-g');btn.textContent='发送中...';btn.disabled=true;
+try{
+var pdfUri=generatePDF(),base64=pdfUri.split(',')[1];
 if(typeof emailjs!=='undefined'){
-emailjs.send('service_4cpq62q','template_k7v4zpw',{to_email:email,reportContent:content,subject:'AP 选课报告 IHP 2026-27'}).then(function(){alert('报告已发送到 '+email+' ！');btn.textContent='发送报告';btn.disabled=false},function(e){alert('发送失败: '+e.text);btn.textContent='发送报告';btn.disabled=false});
+emailjs.send('service_4cpq62q','template_k7v4zpw',{to_email:email,reportContent:text,subject:'AP 选课报告 IHP 2026-27',attachment:[{name:'AP选课报告.pdf',data:base64,type:'application/pdf'}]}).then(function(){alert('PDF报告已发送到 '+email+' ！');btn.textContent='发送报告';btn.disabled=false},function(e){alert('发送失败: '+e.text);btn.textContent='发送报告';btn.disabled=false});
 }else{
-var body=encodeURIComponent(content);window.open('mailto:'+email+'?subject='+encodeURIComponent('AP 选课报告 IHP 2026-27')+'&body='+body,'_blank');btn.textContent='发送报告';btn.disabled=false;
+downloadPDF();alert('邮件服务未加载，已为你下载 PDF 文件，请手动发送到 '+email);btn.textContent='发送报告';btn.disabled=false;
 }
+}catch(e){downloadPDF();alert('PDF已下载，可手动发送邮件');btn.textContent='发送报告';btn.disabled=false}
 }
 
-// 初始化: 所有前置输入默认禁用
 document.querySelectorAll('.pitem[data-target]').forEach(function(el){var t=document.getElementById(el.dataset.target);if(t)t.disabled=true});
 go();
 </script>
