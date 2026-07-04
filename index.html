@@ -203,24 +203,19 @@ doc.setFontSize(10);var lines=doc.splitTextToSize(text,180);doc.text(lines,15,15
 return doc.output('datauristring');
 }
 
-function downloadPDF(){
-var link=document.createElement('a');link.href=generatePDF();link.download='AP选课报告.pdf';link.click();
+function downloadPDF(){try{var uri=generatePDF();var link=document.createElement("a");link.href=uri;link.download="AP选课报告.pdf";link.click()}catch(e){alert("PDF功能暂不可用,请用「打印」按钮->另存为PDF")}}
 }
 
 function sendReport(){
-var email=document.getElementById('emailInput').value.trim();
-if(!email||!email.includes('@')){alert('请输入有效的邮箱地址');return}
-var text=buildReport(),btn=document.querySelector('.btn-g');btn.textContent='发送中...';btn.disabled=true;
-try{
-var pdfUri=generatePDF(),base64=pdfUri.split(',')[1];
-if(typeof emailjs!=='undefined'){
-emailjs.send('service_4cpq62q','template_k7v4zpw',{to_email:email,reportContent:text,subject:'AP 选课报告 IHP 2026-27',attachment:[{name:'AP选课报告.pdf',data:base64,type:'application/pdf'}]}).then(function(){alert('PDF报告已发送到 '+email+' ！');btn.textContent='发送报告';btn.disabled=false},function(e){alert('发送失败: '+e.text);btn.textContent='发送报告';btn.disabled=false});
+var email=document.getElementById("emailInput").value.trim();
+if(!email||!email.includes("@")){alert("请输入有效的邮箱地址");return}
+var text=buildReport(),btn=document.querySelector(".btn-g");btn.textContent="发送中...";btn.disabled=true;
+if(typeof emailjs!=="undefined"&&typeof window.jspdf!=="undefined"){
+try{var pdfUri=generatePDF(),base64=pdfUri.split(",")[1];emailjs.send("service_4cpq62q","template_k7v4zpw",{to_email:email,reportContent:"PDF报告见附件",subject:"AP 选课报告 IHP 2026-27",attachment:[{name:"AP选课报告.pdf",data:base64,type:"application/pdf"}]}).then(function(){alert("PDF报告已发送到 "+email+" ！");btn.textContent="发送报告";btn.disabled=false},function(e){alert("发送失败: "+e.text);btn.textContent="发送报告";btn.disabled=false})}catch(e){alert("PDF生成失败,改用正文发送");emailjs.send("service_4cpq62q","template_k7v4zpw",{to_email:email,reportContent:text,subject:"AP 选课报告 IHP 2026-27"}).then(function(){alert("报告已发送到 "+email+" ！");btn.textContent="发送报告";btn.disabled=false},function(e){alert("发送失败: "+e.text);btn.textContent="发送报告";btn.disabled=false})}
 }else{
-downloadPDF();alert('邮件服务未加载，已为你下载 PDF 文件，请手动发送到 '+email);btn.textContent='发送报告';btn.disabled=false;
+var body=encodeURIComponent(text);window.open("mailto:"+email+"?subject="+encodeURIComponent("AP 选课报告 IHP 2026-27")+"&body="+body,"_blank");btn.textContent="发送报告";btn.disabled=false;
 }
-}catch(e){downloadPDF();alert('PDF已下载，可手动发送邮件');btn.textContent='发送报告';btn.disabled=false}
 }
-
 document.querySelectorAll('.pitem[data-target]').forEach(function(el){var t=document.getElementById(el.dataset.target);if(t)t.disabled=true});
 go();
 </script>
