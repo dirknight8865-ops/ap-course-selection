@@ -82,6 +82,7 @@ tbody tr:hover{background:#f7fafc}
 <div class="card">
 <h3>基本信息</h3>
 <div class="row">
+<div class="grp"><label>学生姓名</label><input type="text" id="stuName" placeholder="输入你的姓名"></div>
 <div class="grp"><label>综合 GPA</label><div class="rval" id="gpaD">90</div><input type="range" id="gpa" min="0" max="100" value="90" oninput="gpaD.textContent=this.value"><div class="rlbl"><span>0</span><span>50</span><span>100</span></div></div>
 <div class="grp"><label>年级</label><select id="grade"><option value="G10">G10</option><option value="G11">G11</option><option value="G12" selected>G12</option></select></div>
 <div class="grp"><label>语言考试</label><select id="langType" onchange="swLang()"><option value="ielts">IELTS (0-9)</option><option value="toefl">TOEFL (0-6)</option></select></div>
@@ -213,6 +214,7 @@ s+='   AP 课程选课报告 — IHP 2026-27\n';
 s+='========================================\n\n';
 s+='【基本信息】\n';
 s+='  综合 GPA：'+st.g+' 分\n';
+s+='  姓名：'+document.getElementById('stuName').value+'\n';
 s+='  年级：'+st.gr+'\n';
 s+='  语言考试：'+(lt.value==='ielts'?'IELTS':'TOEFL')+' '+document.getElementById('langValue').textContent+'\n';
 s+='  方向偏好：'+(st.d==='science'?'偏理科':'偏文科')+'\n';
