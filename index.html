@@ -151,7 +151,7 @@ function togglePre(el,ev){
 function swLang(){var s=document.getElementById('lang'),v=document.getElementById('langD'),l=document.getElementById('langR'),lb=document.getElementById('langLbl'),t=document.getElementById('langType').value;if(t==='ielts'){s.min=0;s.max=9;s.step=0.5;s.value=6;v.textContent='6.0';l.innerHTML='<span>0</span><span>4.5</span><span>9</span>';lb.textContent='语言成绩 (IELTS 0-9)'}else{s.min=0;s.max=6;s.step=0.5;s.value=4;v.textContent='4';l.innerHTML='<span>0</span><span>3</span><span>6</span>';lb.textContent='语言成绩 (TOEFL 0-6)'}}
 function udLang(){document.getElementById('langD').textContent=document.getElementById('lang').value}
 function getLang(){var r=parseFloat(document.getElementById('lang').value),t=document.getElementById('langType').value;if(t==='toefl')return r;var m={};for(var i=0;i<=9;i+=0.5)m[i]=0;m[0]=0;m[0.5]=0;m[1]=0;m[1.5]=1;m[2]=1;m[2.5]=1;m[3]=2;m[3.5]=2;m[4]=2;m[4.5]=3;m[5]=3;m[5.5]=4;m[6]=5;m[6.5]=6;m[7]=6;m[7.5]=6;m[8]=6;m[8.5]=6;m[9]=6;return m[r]||Math.round(r/1.5)}
-function lim(g){if(g>=92)return 3;if(g>=88)return 2;if(g>=85)return 1;return 1}
+function lim(g){if(g>=88)return 3;if(g>=86)return 2;if(g>=84)return 1;return 1}
 
 function evalPre(x,st){
 if(!x.pr)return{ok:true,note:''};var p=x.pr;
@@ -166,7 +166,7 @@ return{ok:true,note:''};
 function go(){
 var st={g:parseInt(document.getElementById('gpa').value),gr:document.getElementById('grade').value,la:getLang(),d:document.getElementById('dir').value,c:document.getElementById('car').value,alg:parseInt(document.getElementById('alg').value),ipc:parseInt(document.getElementById('ipc').value),his:parseInt(document.getElementById('his').value),ap:parseInt(document.getElementById('apScore').value),bio:parseInt(document.getElementById('bio').value)};
 var mx=lim(st.g);document.getElementById('mx').textContent=mx;
-document.getElementById('ch').innerHTML=' <span class="ch '+(st.g>=92?'g':st.g>=88?'y':'r')+'">GPA'+st.g+',可选'+mx+'门</span>';
+document.getElementById('ch').innerHTML=' <span class="ch '+(st.g>=86?'g':st.g>=84?'y':'r')+'">GPA'+st.g+',可选'+mx+'门</span>';
 document.querySelectorAll('.ck').forEach(function(c){c.checked=false});document.getElementById('sc').textContent='0';
 var f=C.filter(function(x){if(st.d==='science')return x.c==='理科'||x.c==='社科';if(st.d==='arts')return x.c==='文科'||x.c==='社科';return true});
 f=f.filter(function(x){return x.grade.indexOf(st.gr)!==-1});
