@@ -78,21 +78,12 @@ td{padding:10px 8px;font-size:12px;border-bottom:1px solid #edf2f7}tbody tr:hove
 <div class="grp"><label>职业方向</label><select id="car"><option>不确定</option><option value="商科">商科(如:金融、会计、市场营销、管理学等)</option><option value="人文社科">人文社科(如:经济学、心理学、历史学、社会学等)</option><option value="理科">理科(如:数学、物理、化学、生物等)</option><option value="工科">工科(如:计算机科学、电子工程、机械工程、土木工程等)</option><option value="医学与健康科学">医学与健康科学(如:临床医学、药学、护理学等)</option><option value="艺术设计">艺术设计(如:平面设计、服装设计、建筑设计等)</option></select></div>
 </div></div>
 
-<div class="card"><h3>前置课程（未修则不勾选）</h3>
-<div class="row"><div class="pgrid">
-<div class="pitem" data-target="alg" onclick="togglePre(this,event)"><input type="checkbox" class="pcb" value="alg"> Algebra 2</div>
-<div class="pitem" data-target="ipc" onclick="togglePre(this,event)"><input type="checkbox" class="pcb" value="ipc"> IPC</div>
-<div class="pitem" data-target="apScore" onclick="togglePre(this,event)"><input type="checkbox" class="pcb" value="ap1"> AP Physics 1 (AP考)</div>
-<div class="pitem" data-target="his" onclick="togglePre(this,event)"><input type="checkbox" class="pcb" value="his"> History</div>
-</div></div>
-<div class="row" style="margin-top:10px">
-<div class="grp" style="flex:1;min-width:140px"><label>Algebra 2 成绩</label><div class="rval" id="algD">85</div><input type="range" id="alg" min="0" max="100" value="85" oninput="algD.textContent=this.value"><div class="rlbl"><span>0</span><span>50</span><span>100</span></div></div>
-<div class="grp" style="flex:1;min-width:140px"><label>IPC 成绩</label><div class="rval" id="ipcD">80</div><input type="range" id="ipc" min="0" max="100" value="80" oninput="ipcD.textContent=this.value"><div class="rlbl"><span>0</span><span>50</span><span>100</span></div></div>
-<div class="grp" style="flex:1;min-width:140px"><label>History 成绩</label><div class="rval" id="hisD">85</div><input type="range" id="his" min="0" max="100" value="85" oninput="hisD.textContent=this.value"><div class="rlbl"><span>0</span><span>50</span><span>100</span></div></div>
-<div class="grp" style="flex:1;min-width:100px"><label>AP Physics 1 考分</label><select id="apScore"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select></div>
-</div></div>
+<div class="card"><h3>前置课程与内测</h3><div style="display:flex;gap:10px;flex-wrap:wrap"><div style="flex:1;min-width:200px"><div class="pitem" data-target="alg" onclick="togglePre(this,event)"><input type="checkbox" class="pcb" value="alg"> Algebra 2</div><div style="display:flex;align-items:center;gap:4px;margin-top:2px"><div style="display:flex;align-items:center;gap:8px;flex:1"><input type="range" id="alg" min="0" max="100" value="85" oninput="algD.textContent=this.value" style="flex:1"><div class="rval" id="algD" style="font-size:16px">85</div></div></div></div><div style="flex:1;min-width:200px"><div class="pitem" data-target="ipc" onclick="togglePre(this,event)"><input type="checkbox" class="pcb" value="ipc"> IPC</div><div style="display:flex;align-items:center;gap:4px;margin-top:2px"><div style="display:flex;align-items:center;gap:8px;flex:1"><input type="range" id="ipc" min="0" max="100" value="80" oninput="ipcD.textContent=this.value" style="flex:1"><div class="rval" id="ipcD" style="font-size:16px">80</div></div></div></div></div>
+<div style="display:flex;gap:10px;flex-wrap:wrap"><div style="flex:1;min-width:200px"><div class="pitem" data-target="apScore" onclick="togglePre(this,event)"><input type="checkbox" class="pcb" value="ap1"> AP Physics 1</div><div style="display:flex;align-items:center;gap:4px;margin-top:2px"><select id="apScore" style="flex:1"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select> <span style="font-size:11px;color:#a0aec0">AP分</span></div></div><div style="flex:1;min-width:200px"><div class="pitem" data-target="his" onclick="togglePre(this,event)"><input type="checkbox" class="pcb" value="his"> History</div><div style="display:flex;align-items:center;gap:4px;margin-top:2px"><div style="display:flex;align-items:center;gap:8px;flex:1"><input type="range" id="his" min="0" max="100" value="85" oninput="hisD.textContent=this.value" style="flex:1"><div class="rval" id="hisD" style="font-size:16px">85</div></div></div></div></div>
+<div style="display:flex;gap:10px;flex-wrap:wrap"><div style="flex:1;min-width:200px"><div class="pitem" data-target="bio" onclick="togglePre(this,event)"><input type="checkbox" class="pcb" value="bio"> Biology 内测</div><div style="display:flex;align-items:center;gap:4px;margin-top:2px"><div style="display:flex;align-items:center;gap:8px;flex:1"><input type="range" id="bio" min="0" max="100" value="85" oninput="bioD.textContent=this.value" style="flex:1"><div class="rval" id="bioD" style="font-size:16px">85</div></div></div></div></div>
+</div>
 
-<div class="card"><h3>仅 AP Biology：入学内测成绩</h3><div class="row"><div class="grp" style="flex:1;min-width:200px"><label>Biology 内测成绩</label><div class="rval" id="bioD">85</div><input type="range" id="bio" min="0" max="100" value="85" oninput="bioD.textContent=this.value"><div class="rlbl"><span>0</span><span>50</span><span>100</span></div></div></div></div>
+
 
 <div class="row" style="margin-bottom:20px"><button class="btn" onclick="go()" style="width:100%">评估并开始选课</button></div>
 
@@ -178,7 +169,7 @@ gs.forEach(function(g){
 var hd=document.createElement('tr');hd.className='gh';hd.innerHTML='<td colspan="8"><span class="bdg '+g.s+'">'+g.l+'</span>('+g.cs.length+'门)</td>';tb.appendChild(hd);
 g.cs.forEach(function(x){
 var lOk=st.la>=x.la,pre=evalPre(x,st),cOk=x.required||st.c==='不确定'||x.cr.indexOf(st.c)!==-1;
-var all=[];if(x.orReq){all.push(lOk||pre.ok);all.push(cOk)}else{all.push(lOk);all.push(pre.ok);all.push(cOk)}if(x.entry)all.push(st.bio>=x.entry);
+var all=[];if(x.orReq){all.push(lOk||pre.ok);all.push(cOk)}else{all.push(lOk);all.push(pre.ok);all.push(cOk)}if(x.entry)all.push(hasPre('bio')&&st.bio>=x.entry);
 var met=all.filter(Boolean).length,total=all.length,ss,sl;
 if(met===total){ss='g';sl='完全匹配';m++}else if(met>=Math.ceil(total/2)){ss='y';sl='部分匹配';p++}else{ss='r';sl='不匹配';n++}
 var ct=x.cr.map(function(cr){return '<span class="ctag'+(cr===st.c?' ok':'')+'">'+cr+'</span>'}).join('');
