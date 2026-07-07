@@ -75,7 +75,7 @@ td{padding:10px 8px;font-size:12px;border-bottom:1px solid #edf2f7}tbody tr:hove
 <div class="grp"><label>语言考试</label><select id="langType" onchange="swLang()"><option value="ielts">IELTS (0-9)</option><option value="toefl">TOEFL (0-6)</option></select></div>
 <div class="grp"><label id="langLbl">语言成绩 (IELTS)</label><div class="rval" id="langD">6.0</div><input type="range" id="lang" min="0" max="9" step="0.5" value="6" oninput="udLang()"><div class="rlbl" id="langR"><span>0</span><span>4.5</span><span>9</span></div></div>
 <div class="grp"><label>方向偏好</label><select id="dir"><option value="science">偏理科</option><option value="arts">偏文科</option></select></div>
-<div class="grp"><label>职业方向</label><select id="car"><option>不确定</option><option>工程类</option><option>医学类</option><option>计算机类</option><option>金融商科类</option><option>人文社科类</option></select></div>
+<div class="grp"><label>职业方向</label><select id="car"><option>不确定</option><option value="商科">商科(如:金融、会计、市场营销、管理学等)</option><option value="人文社科">人文社科(如:经济学、心理学、历史学、社会学等)</option><option value="理科">理科(如:数学、物理、化学、生物等)</option><option value="工科">工科(如:计算机科学、电子工程、机械工程、土木工程等)</option><option value="医学与健康科学">医学与健康科学(如:临床医学、药学、护理学等)</option><option value="艺术设计">艺术设计(如:平面设计、服装设计、建筑设计等)</option></select></div>
 </div></div>
 
 <div class="card"><h3>前置课程（未修则不勾选）</h3>
@@ -116,20 +116,20 @@ td{padding:10px 8px;font-size:12px;border-bottom:1px solid #edf2f7}tbody tr:hove
 
 <script>
 var C=[
-{id:1,n:'AP Pre-Calculus',c:'理科',l:'初级',la:3,cr:['工程类','计算机类','金融商科类'],pr:{t:'alg',s:85},grade:['G10','G11'],required:true},
-{id:2,n:'AP Physics 1',c:'理科',l:'初级',la:3,cr:['工程类','医学类','计算机类'],pr:{t:'ipc',s:85},grade:['G10','G11']},
-{id:3,n:'AP Chemistry',c:'理科',l:'初级',la:4,cr:['医学类','计算机类'],pr:{t:'ipc',s:80},grade:['G10','G11','G12']},
-{id:4,n:'AP Calculus BC',c:'理科',l:'高级',la:3,cr:['工程类','计算机类','金融商科类'],pr:{t:'alg',s:90},grade:['G11','G12'],required:true},
-{id:5,n:'AP Statistics',c:'理科',l:'高级',la:4,cr:['计算机类','金融商科类'],pr:{t:'alg',s:90},grade:['G12'],required:true},
-{id:6,n:'AP Physics 2',c:'理科',l:'高级',la:3,cr:['工程类','计算机类'],pr:{t:'ap1',s:3},grade:['G11','G12']},
-{id:7,n:'AP Physics C: Mechanics',c:'理科',l:'高级',la:3,cr:['工程类','计算机类'],pr:{t:'both',algS:90,ap1S:3},grade:['G11','G12']},
-{id:8,n:'AP Physics C: E&M',c:'理科',l:'高级',la:3,cr:['工程类','计算机类'],pr:{t:'both',algS:90,ap1S:3},grade:['G11','G12']},
-{id:9,n:'AP Biology',c:'理科',l:'高级',la:5,cr:['医学类','计算机类'],pr:null,entry:85,grade:['G11','G12']},
-{id:10,n:'AP Psychology',c:'社科',l:'',la:6,cr:['医学类','人文社科类'],pr:{t:'ipc',s:95},orReq:true,grade:['G11','G12']},
-{id:11,n:'AP Microeconomics',c:'社科',l:'',la:4,cr:['金融商科类','人文社科类'],pr:{t:'alg',s:85},grade:['G11','G12']},
-{id:12,n:'AP Macroeconomics',c:'社科',l:'',la:4,cr:['金融商科类','人文社科类'],pr:null,grade:['G11','G12']},
-{id:13,n:'AP Business',c:'社科',l:'',la:4,cr:['金融商科类','人文社科类'],pr:null,grade:['G11','G12']},
-{id:14,n:'AP World History',c:'社科',l:'',la:6,cr:['人文社科类'],pr:{t:'his',s:85},grade:['G11','G12']}
+{id:1,n:'AP Pre-Calculus',c:'理科',l:'初级',la:3,cr:['工科','理科','商科'],pr:{t:'alg',s:85},grade:['G10','G11'],required:true},
+{id:2,n:'AP Physics 1',c:'理科',l:'初级',la:3,cr:['工科','医学与健康科学','理科'],pr:{t:'ipc',s:85},grade:['G10','G11']},
+{id:3,n:'AP Chemistry',c:'理科',l:'初级',la:4,cr:['医学与健康科学','理科'],pr:{t:'ipc',s:80},grade:['G10','G11','G12']},
+{id:4,n:'AP Calculus BC',c:'理科',l:'高级',la:3,cr:['工科','理科','商科'],pr:{t:'alg',s:90},grade:['G11','G12'],required:true},
+{id:5,n:'AP Statistics',c:'理科',l:'高级',la:4,cr:['理科','商科'],pr:{t:'alg',s:90},grade:['G12'],required:true},
+{id:6,n:'AP Physics 2',c:'理科',l:'高级',la:3,cr:['工科','理科'],pr:{t:'ap1',s:3},grade:['G11','G12']},
+{id:7,n:'AP Physics C: Mechanics',c:'理科',l:'高级',la:3,cr:['工科','理科'],pr:{t:'both',algS:90,ap1S:3},grade:['G11','G12']},
+{id:8,n:'AP Physics C: E&M',c:'理科',l:'高级',la:3,cr:['工科','理科'],pr:{t:'both',algS:90,ap1S:3},grade:['G11','G12']},
+{id:9,n:'AP Biology',c:'理科',l:'高级',la:5,cr:['医学与健康科学','理科'],pr:null,entry:85,grade:['G11','G12']},
+{id:10,n:'AP Psychology',c:'社科',l:'',la:6,cr:['医学与健康科学','人文社科'],pr:{t:'ipc',s:95},orReq:true,grade:['G11','G12']},
+{id:11,n:'AP Microeconomics',c:'社科',l:'',la:4,cr:['商科','人文社科'],pr:{t:'alg',s:85},grade:['G11','G12']},
+{id:12,n:'AP Macroeconomics',c:'社科',l:'',la:4,cr:['商科','人文社科'],pr:null,grade:['G11','G12']},
+{id:13,n:'AP Business',c:'社科',l:'',la:4,cr:['商科','人文社科'],pr:null,grade:['G11','G12']},
+{id:14,n:'AP World History',c:'社科',l:'',la:6,cr:['人文社科'],pr:{t:'his',s:85},grade:['G11','G12']}
 ];
 
 var _lastSt=null,_lastResult=null;
