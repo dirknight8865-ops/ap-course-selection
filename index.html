@@ -242,13 +242,18 @@ document.querySelectorAll('.pitem[data-target]').forEach(function(el){var t=docu
 
 document.querySelectorAll('.pitem[data-target]').forEach(function(el){el.addEventListener('click',function(e){if(e.target.type!=='checkbox')togglePre(el,e)})});
 ['gpa','alg','ipc','his','geo','bio'].forEach(function(id){var el=document.getElementById(id),d=document.getElementById(id+'D');if(el&&d){el.addEventListener('input',function(){d.textContent=el.value})}});
-document.querySelector('.taken-add')?.addEventListener('click',addTakenRow);
+
+var _e;
+_e=document.querySelector('.taken-add');if(_e)_e.addEventListener('click',addTakenRow);
+_e=document.querySelector('.btn');if(_e)_e.addEventListener('click',go);
+_e=document.querySelector('.btn-g');if(_e)_e.addEventListener('click',sendReport);
+_e=document.querySelectorAll('.btn2');if(_e[0])_e[0].addEventListener('click',genReport);if(_e[1])_e[1].addEventListener('click',downloadPDF);if(_e[2])_e[2].addEventListener('click',function(){window.print()});
 document.addEventListener('click',function(e){if(e.target.getAttribute('data-rmv'))e.target.parentElement.remove()});
-document.querySelector('.btn')?.addEventListener('click',go);
-document.querySelector('.btn-g')?.addEventListener('click',sendReport);
-document.querySelectorAll('.btn2')[0]?.addEventListener('click',genReport);
-document.querySelectorAll('.btn2')[1]?.addEventListener('click',downloadPDF);
-document.querySelectorAll('.btn2')[2]?.addEventListener('click',function(){window.print()});
+
+
+
+
+
 document.getElementById('langType').addEventListener('change',swLang);
 document.getElementById('lang').addEventListener('input',udLang);
 addTakenRow();
