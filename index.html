@@ -57,6 +57,12 @@ tbody tr{cursor:pointer}
 .ch{display:inline-block;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:600}
 .ch.g{background:#c6f6d5;color:#22543d}.ch.y{background:#fefcbf;color:#744210}.ch.r{background:#fed7d7;color:#9b2c2c}
 .cbox{text-align:center}.cbox input{width:14px;height:14px;cursor:pointer}.cbox input:disabled{cursor:not-allowed;opacity:.25}
+.taken-row{display:flex;gap:8px;align-items:center;margin-bottom:6px;flex-wrap:wrap}
+.taken-row select{flex:1;min-width:120px;padding:6px 8px;border:2px solid #e2e8f0;border-radius:8px;font-size:12px}
+.taken-rmv{width:28px;height:28px;border-radius:50%;border:2px solid #fc8181;background:#fff;color:#9b2c2c;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.taken-rmv:hover{background:#fed7d7}
+.taken-add{width:32px;height:32px;border-radius:50%;border:2px solid #48bb78;background:#fff;color:#22543d;font-size:20px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.taken-add:hover{background:#c6f6d5;transform:scale(1.1)}
 .ctags{display:flex;flex-wrap:wrap;gap:2px}.ctag{font-size:9px;padding:1px 5px;border-radius:3px;background:#edf2f7;color:#4a5568}
 .ctag.ok{background:#c6f6d5;color:#22543d;font-weight:600}
 .rtag{display:inline-block;padding:1px 6px;border-radius:3px;font-size:10px;background:#fed7d7;color:#9b2c2c;font-weight:600}
@@ -88,6 +94,7 @@ tbody tr{cursor:pointer}
 <div style="display:flex;gap:10px;flex-wrap:wrap"><div style="flex:1;min-width:200px"><div class="pitem" data-target="apScore" onclick="togglePre(this,event)"><input type="checkbox" class="pcb" value="ap1"> AP Physics 1</div><div style="display:flex;align-items:center;gap:4px;margin-top:2px"><select id="apScore" style="flex:1"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select> <span style="font-size:11px;color:#a0aec0">AP分</span></div></div><div style="flex:1;min-width:200px"><div class="pitem" data-target="his" onclick="togglePre(this,event)"><input type="checkbox" class="pcb" value="his"> History</div><div style="display:flex;align-items:center;gap:4px;margin-top:2px"><div style="display:flex;align-items:center;gap:8px;flex:1"><input type="range" id="his" min="0" max="100" value="85" oninput="hisD.textContent=this.value" style="flex:1"><div class="rval" id="hisD" style="font-size:16px">85</div></div></div></div></div>
 <div style="display:flex;gap:10px;flex-wrap:wrap"><div style="flex:1;min-width:200px"><div class="pitem" data-target="geo" onclick="togglePre(this,event)"><input type="checkbox" class="pcb" value="geo"> Geometry</div><div style="display:flex;align-items:center;gap:4px;margin-top:2px"><div style="display:flex;align-items:center;gap:8px;flex:1"><input type="range" id="geo" min="0" max="100" value="90" oninput="geoD.textContent=this.value" style="flex:1"><div class="rval" id="geoD" style="font-size:16px">90</div></div></div></div><div style="flex:1;min-width:200px"><div class="pitem" data-target="bio" onclick="togglePre(this,event)"><input type="checkbox" class="pcb" value="bio"> Biology 内测</div><div style="display:flex;align-items:center;gap:4px;margin-top:2px"><div style="display:flex;align-items:center;gap:8px;flex:1"><input type="range" id="bio" min="0" max="100" value="85" oninput="bioD.textContent=this.value" style="flex:1"><div class="rval" id="bioD" style="font-size:16px">85</div></div></div></div></div>
 </div></div>
+<div class="card"><h3>已考 AP 课程</h3><div id="takenList"></div><div style="margin-top:6px"><button class="taken-add" onclick="addTakenRow()" title="添加已考AP课程">+</button></div></div>
 
 
 
@@ -151,18 +158,21 @@ function getCareers(){return Array.from(document.querySelectorAll('.car-cb:check
 function getLang(){var r=parseFloat(document.getElementById('lang').value),t=document.getElementById('langType').value;if(t==='toefl')return r;var m={};for(var i=0;i<=9;i+=0.5)m[i]=0;m[0]=0;m[0.5]=0;m[1]=0;m[1.5]=1;m[2]=1;m[2.5]=1;m[3]=2;m[3.5]=2;m[4]=2;m[4.5]=3;m[5]=3;m[5.5]=4;m[6]=5;m[6.5]=6;m[7]=6;m[7.5]=6;m[8]=6;m[8.5]=6;m[9]=6;return m[r]||Math.round(r/1.5)}
 function lim(g){if(g>=88)return 3;if(g>=86)return 2;if(g>=84)return 1;return 1}
 
-function evalPre(x,st){
+function addTakenRow(){var list=document.getElementById('takenList');var row=document.createElement('div');row.className='taken-row';var opts=C.map(function(x){return '<option value="'+x.id+'">'+x.n+'</option>'}).join('');row.innerHTML='<select class="taken-sel">'+opts+'</select> <select class="taken-sc"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4" selected>4</option><option value="5">5</option></select> <button class="taken-rmv" onclick="this.parentElement.remove()">×</button>';list.appendChild(row)}
+function getTakenCourses(){return Array.from(document.querySelectorAll('#takenList .taken-row')).map(function(r){var s=r.querySelector('.taken-sel'),c=r.querySelector('.taken-sc');return{id:parseInt(s.value),name:s.options[s.selectedIndex].text,score:parseInt(c.value)}})}
+function getTakenMap(taken){var m={};taken.forEach(function(t){m[t.id]=t.score});return m}
+function evalPre(x,st,takenMap){
 if(!x.pr)return{ok:true,note:''};var p=x.pr;
 if(p.t==='alg'){var ok=hasPre('alg')&&st.alg>=p.s;return{ok:ok,note:ok?'通过':(hasPre('alg')?'分数不足':'未修Alg2')}}
 if(p.t==='ipc'){var ok=hasPre('ipc')&&st.ipc>=p.s;return{ok:ok,note:ok?'通过':(hasPre('ipc')?'分数不足':'未修IPC')}}
 if(p.t==='his'){var ok=hasPre('his')&&st.his>=p.s;return{ok:ok,note:ok?'通过':(hasPre('his')?'分数不足':'未修His')}}if(p.t==='geo'){var ok=hasPre('geo')&&st.geo>=p.s;return{ok:ok,note:ok?'通过':(hasPre('geo')?'分数不足':'未修Geo')}}
-if(p.t==='ap1'){var ok=hasPre('ap1')&&st.ap>=p.s;return{ok:ok,note:ok?'通过':(hasPre('ap1')?'AP分不足':'未考AP Ph1')}}
-if(p.t==='both'){var ok=hasPre('alg')&&st.alg>=p.algS&&hasPre('ap1')&&st.ap>=p.ap1S;return{ok:ok,note:ok?'通过':'需Alg2 90+ & AP Ph1 3+'}}
+if(p.t==='ap1'){var tk=takenMap&&takenMap[2]&&takenMap[2]>=p.s;var sc=hasPre('ap1')&&st.ap>=p.s;var ok=tk||sc;return{ok:ok,note:ok?(tk?'已考AP Ph1':'通过'):(hasPre('ap1')?'AP分不足':'未考AP Ph1')}}
+if(p.t==='both'){var tk=takenMap&&takenMap[2]&&takenMap[2]>=p.ap1S;var algOk=hasPre('alg')&&st.alg>=p.algS;var ph1Ok=tk||(hasPre('ap1')&&st.ap>=p.ap1S);var ok=algOk&&ph1Ok;return{ok:ok,note:ok?'通过':'需Alg2 90+ & AP Ph1 3+'}}
 return{ok:true,note:''};
 }
 
 function go(){
-var st={g:parseInt(document.getElementById('gpa').value),gr:document.getElementById('grade').value,la:getLang(),d:document.getElementById('dir').value,c:getCareers(),alg:parseInt(document.getElementById('alg').value),ipc:parseInt(document.getElementById('ipc').value),his:parseInt(document.getElementById('his').value),geo:parseInt(document.getElementById('geo').value),ap:parseInt(document.getElementById('apScore').value),bio:parseInt(document.getElementById('bio').value)};
+var st={g:parseInt(document.getElementById('gpa').value),gr:document.getElementById('grade').value,la:getLang(),d:document.getElementById('dir').value,c:getCareers(),alg:parseInt(document.getElementById('alg').value),ipc:parseInt(document.getElementById('ipc').value),his:parseInt(document.getElementById('his').value),geo:parseInt(document.getElementById('geo').value),ap:parseInt(document.getElementById('apScore').value),bio:parseInt(document.getElementById('bio').value)};var tk=getTakenCourses(),tkMap=getTakenMap(tk);
 var mx=lim(st.g);document.getElementById('mx').textContent=mx;
 document.getElementById('ch').innerHTML=' <span class="ch '+(st.g>=86?'g':st.g>=84?'y':'r')+'">GPA'+st.g+',可选'+mx+'门</span>';
 document.querySelectorAll('.ck').forEach(function(c){c.checked=false});document.getElementById('sc').textContent='0';
@@ -175,7 +185,7 @@ document.getElementById('tc').textContent=f.length;
 gs.forEach(function(g){
 var hd=document.createElement('tr');hd.className='gh';hd.innerHTML='<td colspan="8"><span class="bdg '+g.s+'">'+g.l+'</span>('+g.cs.length+'门)</td>';tb.appendChild(hd);
 g.cs.forEach(function(x){
-var lOk=st.la>=x.la,pre=evalPre(x,st),cOk=x.required||st.c.indexOf('不确定')!==-1||st.c.some(function(c){return x.cr.indexOf(c)!==-1});
+var lOk=st.la>=x.la,pre=evalPre(x,st,tkMap),cOk=x.required||st.c.indexOf('不确定')!==-1||st.c.some(function(c){return x.cr.indexOf(c)!==-1});
 var all=[];if(x.orReq){all.push(lOk||pre.ok);all.push(cOk)}else{all.push(lOk);all.push(pre.ok);all.push(cOk)}if(x.entry)all.push(hasPre('bio')&&st.bio>=x.entry);
 var met=all.filter(Boolean).length,total=all.length,ss,sl;
 if(met===total){ss='g';sl='完全匹配';m++}else if(met>=Math.ceil(total/2)){ss='y';sl='部分匹配';p++}else{ss='r';sl='不匹配';n++}
@@ -184,7 +194,7 @@ var cd=x.c+(x.l?' . '+x.l:''),rt=x.required?' <span class="rtag">必修</span>':
 var tr=document.createElement('tr');
 tr.innerHTML='<td class="cbox"><input type="checkbox" class="ck"'+(met===total?'':' disabled')+'></td><td><span class="sb '+ss+'">'+sl+'</span></td><td><strong>'+x.n+'</strong>'+rt+'</td><td><span style="font-size:11px;color:#718096">'+cd+'</span></td><td>'+x.grade.join('/')+'</td><td><span class="tg '+(lOk?'g':'r')+'">'+(document.getElementById('langType').value==='ielts'?'IELTS≥'+({3:'5.0',4:'5.5',5:'6.0',6:'6.5'})[x.la]:'TOEFL≥'+x.la+'分')+'</span></td><td>'+(pre.ok?'<span class="tg g">'+pre.note+'</span>':'<span class="tg r">'+pre.note+'</span>')+'</td><td><div class="ctags">'+ct+'</div></td>';
 tb.appendChild(tr);});});
-_lastSt=st;_lastResult={f:f,m:m,p:p,n:n,st:st};
+_lastSt=st;_lastResult={f:f,m:m,p:p,n:n,st:st,tkMap:tkMap,tk:tk};
 var sb=document.getElementById('sbar'),dt=sb.querySelector('.dt');if(!dt){dt=document.createElement('span');dt.className='dt';sb.querySelector('.cnt').after(dt)}
 dt.innerHTML='<span style="color:#22543d;font-weight:600">完全匹配 '+m+'</span><span style="margin:0 5px;color:#a0aec0">|</span><span style="color:#744210;font-weight:600">部分匹配 '+p+'</span><span style="margin:0 5px;color:#a0aec0">|</span><span style="color:#9b2c2c;font-weight:600">不匹配 '+n+'</span><span style="margin:0 5px;color:#a0aec0">|</span><span style="color:#0f3460;font-weight:600">已选 <span id="sc2">0</span></span>';
 }
@@ -195,8 +205,8 @@ document.addEventListener('change',function(e){if(!e.target.classList.contains('
 function buildReport(){
 if(!_lastResult)return '请先点击「评估并开始选课」生成结果。';
 var st=_lastSt,r=_lastResult,lt=document.getElementById('langType'),nm=document.getElementById('stuName').value||'(未填)';
-var s='========================================\n  AP 课程选课报告 — IHP 2026-27\n========================================\n\n【基本信息】\n  姓名：'+nm+'\n  综合 GPA：'+st.g+' 分\n  年级：'+st.gr+'\n  语言：'+(lt.value==='ielts'?'IELTS':'TOEFL')+' '+document.getElementById('langD').textContent+'\n  方向：'+(st.d==='science'?'偏理科':'偏文科')+'\n  职业：'+st.c+'\n\n【前置课程】\n  Alg2：'+(hasPre('alg')?'已修 '+st.alg+'分':'未修')+' | IPC：'+(hasPre('ipc')?'已修 '+st.ipc+'分':'未修')+' | AP Ph1：'+(hasPre('ap1')?'已考 '+st.ap+'分':'未考')+' | His：'+(hasPre('his')?'已修 '+st.his+'分':'未修')+'\n\n【评估结果】  可任选 '+document.getElementById('mx').textContent+' 门 | 完全匹配：'+r.m+' | 部分匹配：'+r.p+' | 不匹配：'+r.n+'\n\n【推荐与备选课程】\n';
-r.f.forEach(function(x){var pre=evalPre(x,st),lOk=st.la>=x.la,cOk=x.required||st.c.indexOf('不确定')!==-1||st.c.some(function(c){return x.cr.indexOf(c)!==-1});var dims=[];if(x.orReq){dims.push({k:'语言/前置',v:lOk||pre.ok})}else{dims.push({k:'语言',v:lOk});dims.push({k:'前置',v:pre.ok});dims.push({k:'职业',v:cOk})}if(x.entry)dims.push({k:'内测',v:st.bio>=x.entry});var met=dims.filter(function(d){return d.v}).length,total=dims.length;if(met===total){s+='  \u2705 '+(x.required?'[必修]':'[推荐]')+' '+x.n+' ('+x.c+(x.l?' . '+x.l:'')+') '+x.grade.join('/')+' '+(lt.value==='ielts'?'IELTS≥'+({3:'5.0',4:'5.5',5:'6.0',6:'6.5'})[x.la]:'TOEFL≥'+x.la+'分')+'\n'}else if(met>=Math.ceil(total/2)){var fail=dims.filter(function(d){return !d.v}).map(function(d){return d.k}).join(',');s+='  \u26a0\ufe0f [部分匹配] '+x.n+' - 缺:'+fail+' ('+x.c+(x.l?' . '+x.l:'')+') '+x.grade.join('/')+'\n'}});
+var s='========================================\n  AP 课程选课报告 — IHP 2026-27\n========================================\n\n【基本信息】\n  姓名：'+nm+'\n  综合 GPA：'+st.g+' 分\n  年级：'+st.gr+'\n  语言：'+(lt.value==='ielts'?'IELTS':'TOEFL')+' '+document.getElementById('langD').textContent+'\n  方向：'+(st.d==='science'?'偏理科':'偏文科')+'\n  职业：'+st.c+'\n  已考AP：'+(r.tk&&r.tk.length?r.tk.map(function(t){return t.name+'\uff08'+t.score+'\u5206\uff09'}).join('\u3001'):'\u65e0')+'\n\n【前置课程】\n  Alg2：'+(hasPre('alg')?'已修 '+st.alg+'分':'未修')+' | IPC：'+(hasPre('ipc')?'已修 '+st.ipc+'分':'未修')+' | AP Ph1：'+(hasPre('ap1')?'已考 '+st.ap+'分':'未考')+' | His：'+(hasPre('his')?'已修 '+st.his+'分':'未修')+'\n\n【评估结果】  可任选 '+document.getElementById('mx').textContent+' 门 | 完全匹配：'+r.m+' | 部分匹配：'+r.p+' | 不匹配：'+r.n+'\n\n【推荐与备选课程】\n';
+r.f.forEach(function(x){var pre=evalPre(x,st,tkMap),lOk=st.la>=x.la,cOk=x.required||st.c.indexOf('不确定')!==-1||st.c.some(function(c){return x.cr.indexOf(c)!==-1});var dims=[];if(x.orReq){dims.push({k:'语言/前置',v:lOk||pre.ok})}else{dims.push({k:'语言',v:lOk});dims.push({k:'前置',v:pre.ok});dims.push({k:'职业',v:cOk})}if(x.entry)dims.push({k:'内测',v:st.bio>=x.entry});var met=dims.filter(function(d){return d.v}).length,total=dims.length;if(met===total){s+='  \u2705 '+(x.required?'[必修]':'[推荐]')+' '+x.n+' ('+x.c+(x.l?' . '+x.l:'')+') '+x.grade.join('/')+' '+(lt.value==='ielts'?'IELTS≥'+({3:'5.0',4:'5.5',5:'6.0',6:'6.5'})[x.la]:'TOEFL≥'+x.la+'分')+'\n'}else if(met>=Math.ceil(total/2)){var fail=dims.filter(function(d){return !d.v}).map(function(d){return d.k}).join(',');s+='  \u26a0\ufe0f [部分匹配] '+x.n+' - 缺:'+fail+' ('+x.c+(x.l?' . '+x.l:'')+') '+x.grade.join('/')+'\n'}});
 s+='\n生成时间：'+new Date().toLocaleString('zh-CN')+'\n';
 return s;
 }
@@ -225,6 +235,7 @@ var body=encodeURIComponent(text);window.open('mailto:'+email+'?subject='+encode
 }
 
 document.querySelectorAll('.pitem[data-target]').forEach(function(el){var t=document.getElementById(el.dataset.target);if(t)t.disabled=true});
+addTakenRow();
 go();
 </script>
 </body>
