@@ -81,7 +81,7 @@ tbody tr{cursor:pointer}
 <div style="flex:1;min-width:320px">
 <div class="grp" style="margin-bottom:6px"><label>学生姓名</label><input type="text" id="stuName" placeholder="输入你的姓名"></div>
 <div class="row">
-<div class="grp"><label>综合 GPA</label><div class="rval" id="gpaD">90</div><input type="range" id="gpa" min="0" max="100" value="90" oninput="gpaD.textContent=this.value"><div class="rlbl"><span>0</span><span>50</span><span>100</span></div></div>
+<div class="grp"><label>综合 GPA</label><div class="rval" id="gpaD">90</div><input type="range" id="gpa" min="0" max="100" value="90"><div class="rlbl"><span>0</span><span>50</span><span>100</span></div></div>
 <div class="grp"><label>年级</label><select id="grade"><option value="G10">G10</option><option value="G11">G11</option><option value="G12" selected>G12</option></select></div>
 <div class="grp"><label>语言考试</label><select id="langType"><option value="ielts">IELTS (0-9)</option><option value="toefl">TOEFL (0-6)</option></select></div>
 <div class="grp"><label id="langLbl">语言成绩 (IELTS)</label><div class="rval" id="langD">6.0</div><input type="range" id="lang" min="0" max="9" step="0.5" value="6"><div class="rlbl" id="langR"><span>0</span><span>4.5</span><span>9</span></div></div>
@@ -90,15 +90,15 @@ tbody tr{cursor:pointer}
 <div style="flex:1;min-width:280px">
 <div class="grp"><label>职业方向（可多选）</label><div style="display:flex;flex-direction:column;gap:2px;margin-top:2px"><label style="display:flex;align-items:center;gap:3px;font-size:12px;cursor:pointer"><input type="checkbox" class="car-cb" value="不确定"> 不确定</label><label style="display:flex;align-items:center;gap:3px;font-size:12px;cursor:pointer"><input type="checkbox" class="car-cb" value="商科"> 商科(如:金融、会计、市场营销、管理学等)</label><label style="display:flex;align-items:center;gap:3px;font-size:12px;cursor:pointer"><input type="checkbox" class="car-cb" value="人文社科"> 人文社科(如:经济学、心理学、历史学、社会学等)</label><label style="display:flex;align-items:center;gap:3px;font-size:12px;cursor:pointer"><input type="checkbox" class="car-cb" value="理科"> 理科(如:数学、物理、化学、生物等)</label><label style="display:flex;align-items:center;gap:3px;font-size:12px;cursor:pointer"><input type="checkbox" class="car-cb" value="工科"> 工科(如:计算机科学、电子工程、机械工程、土木工程等)</label><label style="display:flex;align-items:center;gap:3px;font-size:12px;cursor:pointer"><input type="checkbox" class="car-cb" value="医学与健康科学"> 医学与健康科学(如:临床医学、药学、护理学等)</label><label style="display:flex;align-items:center;gap:3px;font-size:12px;cursor:pointer"><input type="checkbox" class="car-cb" value="艺术设计"> 艺术设计(如:平面设计、服装设计、建筑设计等)</label></div></div>
 </div></div></div>
-<div class="card"><h3>前置课程与内测</h3><div style="display:flex;gap:10px;flex-wrap:wrap"><div style="flex:1;min-width:200px"><div class="pitem" data-target="alg" onclick="togglePre(this,event)"><input type="checkbox" class="pcb" value="alg"> Algebra 2</div><div style="display:flex;align-items:center;gap:4px;margin-top:2px"><div style="display:flex;align-items:center;gap:8px;flex:1"><input type="range" id="alg" min="0" max="100" value="85" oninput="algD.textContent=this.value" style="flex:1"><div class="rval" id="algD" style="font-size:16px">85</div></div></div></div><div style="flex:1;min-width:200px"><div class="pitem" data-target="ipc" onclick="togglePre(this,event)"><input type="checkbox" class="pcb" value="ipc"> IPC</div><div style="display:flex;align-items:center;gap:4px;margin-top:2px"><div style="display:flex;align-items:center;gap:8px;flex:1"><input type="range" id="ipc" min="0" max="100" value="80" oninput="ipcD.textContent=this.value" style="flex:1"><div class="rval" id="ipcD" style="font-size:16px">80</div></div></div></div></div>
-<div style="display:flex;gap:10px;flex-wrap:wrap"><div style="flex:1;min-width:200px"><div class="pitem" data-target="apScore" onclick="togglePre(this,event)"><input type="checkbox" class="pcb" value="ap1"> AP Physics 1</div><div style="display:flex;align-items:center;gap:4px;margin-top:2px"><select id="apScore" style="flex:1"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select> <span style="font-size:11px;color:#a0aec0">AP分</span></div></div><div style="flex:1;min-width:200px"><div class="pitem" data-target="his" onclick="togglePre(this,event)"><input type="checkbox" class="pcb" value="his"> History</div><div style="display:flex;align-items:center;gap:4px;margin-top:2px"><div style="display:flex;align-items:center;gap:8px;flex:1"><input type="range" id="his" min="0" max="100" value="85" oninput="hisD.textContent=this.value" style="flex:1"><div class="rval" id="hisD" style="font-size:16px">85</div></div></div></div></div>
-<div style="display:flex;gap:10px;flex-wrap:wrap"><div style="flex:1;min-width:200px"><div class="pitem" data-target="geo" onclick="togglePre(this,event)"><input type="checkbox" class="pcb" value="geo"> Geometry</div><div style="display:flex;align-items:center;gap:4px;margin-top:2px"><div style="display:flex;align-items:center;gap:8px;flex:1"><input type="range" id="geo" min="0" max="100" value="90" oninput="geoD.textContent=this.value" style="flex:1"><div class="rval" id="geoD" style="font-size:16px">90</div></div></div></div><div style="flex:1;min-width:200px"><div class="pitem" data-target="bio" onclick="togglePre(this,event)"><input type="checkbox" class="pcb" value="bio"> Biology 内测</div><div style="display:flex;align-items:center;gap:4px;margin-top:2px"><div style="display:flex;align-items:center;gap:8px;flex:1"><input type="range" id="bio" min="0" max="100" value="85" oninput="bioD.textContent=this.value" style="flex:1"><div class="rval" id="bioD" style="font-size:16px">85</div></div></div></div></div>
+<div class="card"><h3>前置课程与内测</h3><div style="display:flex;gap:10px;flex-wrap:wrap"><div style="flex:1;min-width:200px"><div class="pitem" data-target="alg"><input type="checkbox" class="pcb" value="alg"> Algebra 2</div><div style="display:flex;align-items:center;gap:4px;margin-top:2px"><div style="display:flex;align-items:center;gap:8px;flex:1"><input type="range" id="alg" min="0" max="100" value="85" style="flex:1"><div class="rval" id="algD" style="font-size:16px">85</div></div></div></div><div style="flex:1;min-width:200px"><div class="pitem" data-target="ipc"><input type="checkbox" class="pcb" value="ipc"> IPC</div><div style="display:flex;align-items:center;gap:4px;margin-top:2px"><div style="display:flex;align-items:center;gap:8px;flex:1"><input type="range" id="ipc" min="0" max="100" value="80" style="flex:1"><div class="rval" id="ipcD" style="font-size:16px">80</div></div></div></div></div>
+<div style="display:flex;gap:10px;flex-wrap:wrap"><div style="flex:1;min-width:200px"><div class="pitem" data-target="apScore"><input type="checkbox" class="pcb" value="ap1"> AP Physics 1</div><div style="display:flex;align-items:center;gap:4px;margin-top:2px"><select id="apScore" style="flex:1"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select> <span style="font-size:11px;color:#a0aec0">AP分</span></div></div><div style="flex:1;min-width:200px"><div class="pitem" data-target="his"><input type="checkbox" class="pcb" value="his"> History</div><div style="display:flex;align-items:center;gap:4px;margin-top:2px"><div style="display:flex;align-items:center;gap:8px;flex:1"><input type="range" id="his" min="0" max="100" value="85" style="flex:1"><div class="rval" id="hisD" style="font-size:16px">85</div></div></div></div></div>
+<div style="display:flex;gap:10px;flex-wrap:wrap"><div style="flex:1;min-width:200px"><div class="pitem" data-target="geo"><input type="checkbox" class="pcb" value="geo"> Geometry</div><div style="display:flex;align-items:center;gap:4px;margin-top:2px"><div style="display:flex;align-items:center;gap:8px;flex:1"><input type="range" id="geo" min="0" max="100" value="90" style="flex:1"><div class="rval" id="geoD" style="font-size:16px">90</div></div></div></div><div style="flex:1;min-width:200px"><div class="pitem" data-target="bio"><input type="checkbox" class="pcb" value="bio"> Biology 内测</div><div style="display:flex;align-items:center;gap:4px;margin-top:2px"><div style="display:flex;align-items:center;gap:8px;flex:1"><input type="range" id="bio" min="0" max="100" value="85" style="flex:1"><div class="rval" id="bioD" style="font-size:16px">85</div></div></div></div></div>
 </div></div>
-<div class="card"><h3>已考 AP 课程</h3><div id="takenList"></div><div style="margin-top:6px"><button class="taken-add" onclick="addTakenRow()" title="添加已考AP课程">+</button></div></div>
+<div class="card"><h3>已考 AP 课程</h3><div id="takenList"></div><div style="margin-top:6px"><button class="taken-add" title="添加已考AP课程">+</button></div></div>
 
 
 
-<div class="row" style="margin-bottom:20px"><button class="btn" onclick="go()" style="width:100%">评估并开始选课</button></div>
+<div class="row" style="margin-bottom:20px"><button class="btn" style="width:100%">评估并开始选课</button></div>
 
 <div class="sbar" id="sbar"><div class="cnt">课程 <span id="tc">0</span> | 任选上限 <span id="mx">0</span> 门 | 已选 <span id="sc">0</span> 门 <span id="ch"></span><span class="msg" id="selMsg"></span></div>
 <div class="leg"><div class="legi"><span class="ld g"></span> 完全匹配</div><div class="legi"><span class="ld y"></span> 部分匹配</div><div class="legi"><span class="ld r"></span> 不匹配</div></div></div>
@@ -109,11 +109,11 @@ tbody tr{cursor:pointer}
 <h3>选课报告</h3>
 <div class="row" style="margin-bottom:12px">
 <div class="grp" style="flex:2;min-width:250px"><label>发送到邮箱</label><input type="email" id="emailInput" placeholder="输入邮箱" value="dirknight@163.com"></div>
-<div class="grp" style="flex:1;min-width:120px"><label>&nbsp;</label><button class="btn-g" onclick="sendReport()" style="width:100%">发送报告</button></div></div>
+<div class="grp" style="flex:1;min-width:120px"><label>&nbsp;</label><button class="btn-g" style="width:100%">发送报告</button></div></div>
 <div class="row" style="gap:8px;margin-top:4px">
-<button class="btn2" onclick="genReport()">预览报告</button>
-<button class="btn2" onclick="downloadPDF()">下载 PDF</button>
-<button class="btn2" onclick="window.print()">打印</button>
+<button class="btn2">预览报告</button>
+<button class="btn2">下载 PDF</button>
+<button class="btn2">打印</button>
 </div>
 <div class="report-box" id="reportBox"></div></div>
 </div>
@@ -158,7 +158,7 @@ function getCareers(){return Array.from(document.querySelectorAll('.car-cb:check
 function getLang(){var r=parseFloat(document.getElementById('lang').value),t=document.getElementById('langType').value;if(t==='toefl')return r;var m={};for(var i=0;i<=9;i+=0.5)m[i]=0;m[0]=0;m[0.5]=0;m[1]=0;m[1.5]=1;m[2]=1;m[2.5]=1;m[3]=2;m[3.5]=2;m[4]=2;m[4.5]=3;m[5]=3;m[5.5]=4;m[6]=5;m[6.5]=6;m[7]=6;m[7.5]=6;m[8]=6;m[8.5]=6;m[9]=6;return m[r]||Math.round(r/1.5)}
 function lim(g){if(g>=88)return 3;if(g>=86)return 2;if(g>=84)return 1;return 1}
 
-function addTakenRow(){var list=document.getElementById('takenList');var row=document.createElement('div');row.className='taken-row';var opts=C.map(function(x){return '<option value="'+x.id+'">'+x.n+'</option>'}).join('');row.innerHTML='<select class="taken-sel">'+opts+'</select> <select class="taken-sc"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4" selected>4</option><option value="5">5</option></select> <button class="taken-rmv" onclick="this.parentElement.remove()">×</button>';list.appendChild(row)}
+function addTakenRow(){var list=document.getElementById('takenList');var row=document.createElement('div');row.className='taken-row';var opts=C.map(function(x){return '<option value="'+x.id+'">'+x.n+'</option>'}).join('');row.innerHTML='<select class="taken-sel">'+opts+'</select> <select class="taken-sc"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4" selected>4</option><option value="5">5</option></select> <button class="taken-rmv" data-rmv="1">×</button>';list.appendChild(row)}
 function getTakenCourses(){return Array.from(document.querySelectorAll('#takenList .taken-row')).map(function(r){var s=r.querySelector('.taken-sel'),c=r.querySelector('.taken-sc');return{id:parseInt(s.value),name:s.options[s.selectedIndex].text,score:parseInt(c.value)}})}
 function getTakenMap(taken){var m={};taken.forEach(function(t){m[t.id]=t.score});return m}
 function evalPre(x,st,takenMap){
@@ -239,10 +239,20 @@ var body=encodeURIComponent(text);window.open('mailto:'+email+'?subject='+encode
 }
 
 document.querySelectorAll('.pitem[data-target]').forEach(function(el){var t=document.getElementById(el.dataset.target);if(t)t.disabled=true});
-addTakenRow();
-go();
+
+document.querySelectorAll('.pitem[data-target]').forEach(function(el){el.addEventListener('click',function(e){if(e.target.type!=='checkbox')togglePre(el,e)})});
+['gpa','alg','ipc','his','geo','bio'].forEach(function(id){var el=document.getElementById(id),d=document.getElementById(id+'D');if(el&&d){el.addEventListener('input',function(){d.textContent=el.value})}});
+document.querySelector('.taken-add')?.addEventListener('click',addTakenRow);
+document.addEventListener('click',function(e){if(e.target.getAttribute('data-rmv'))e.target.parentElement.remove()});
+document.querySelector('.btn')?.addEventListener('click',go);
+document.querySelector('.btn-g')?.addEventListener('click',sendReport);
+document.querySelectorAll('.btn2')[0]?.addEventListener('click',genReport);
+document.querySelectorAll('.btn2')[1]?.addEventListener('click',downloadPDF);
+document.querySelectorAll('.btn2')[2]?.addEventListener('click',function(){window.print()});
 document.getElementById('langType').addEventListener('change',swLang);
 document.getElementById('lang').addEventListener('input',udLang);
+addTakenRow();
+go();
 </script>
 </body>
 </html><!-- 职业方向更新 Tue Jul  7 10:11:27 CST 2026 -->
