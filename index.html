@@ -78,7 +78,8 @@ tbody tr{cursor:pointer}
 <div style="flex:1;min-width:320px">
 <div class="grp" style="margin-bottom:6px"><label>学生姓名</label><input type="text" id="stuName" placeholder="输入你的姓名"></div>
 <div class="row">
-<div class="grp"><label>综合 GPA</label><div class="rval" id="gpaD">90</div><input type="range" id="gpa" min="0" max="100" value="90"><div class="rlbl"><span>0</span><span>50</span><span>100</span></div></div>
+<div class="grp"><label>GPA 类型</label><select id="gpaType"><option value="100">百分制 (0-100)</option><option value="40">4.0 制 (0.0-4.0)</option></select></div>
+<div class="grp"><label>综合 GPA</label><div class="rval" id="gpaD">90</div><input type="range" id="gpa" min="0" max="100" value="90" step="1"><div class="rlbl" id="gpaR"><span>0</span><span>50</span><span>100</span></div></div>
 <div class="grp"><label>年级</label><select id="grade"><option value="G10">G10</option><option value="G11">G11</option><option value="G12" selected>G12</option></select></div>
 <div class="grp"><label>语言考试</label><select id="langType"><option value="ielts">IELTS (0-9)</option><option value="toefl">TOEFL (0-6)</option></select></div>
 <div class="grp"><label id="langLbl">语言成绩 (IELTS)</label><div class="rval" id="langD">6.0</div><input type="range" id="lang" min="0" max="9" step="0.5" value="6"><div class="rlbl" id="langR"><span>0</span><span>4.5</span><span>9</span></div></div>
@@ -151,6 +152,9 @@ function togglePre(el,ev){
 
 function swLang(){var s=document.getElementById('lang'),v=document.getElementById('langD'),l=document.getElementById('langR'),lb=document.getElementById('langLbl'),t=document.getElementById('langType').value;if(t==='ielts'){s.min=0;s.max=9;s.step=0.5;s.value=6;v.textContent='6.0';l.innerHTML='<span>0</span><span>4.5</span><span>9</span>';lb.textContent='语言成绩 (IELTS 0-9)'}else{s.min=0;s.max=6;s.step=0.5;s.value=4;v.textContent='4';l.innerHTML='<span>0</span><span>3</span><span>6</span>';lb.textContent='语言成绩 (TOEFL 0-6)'}}
 function udLang(){document.getElementById('langD').textContent=document.getElementById('lang').value}
+
+function swGpa(){var t=document.getElementById('gpaType').value,s=document.getElementById('gpa'),d=document.getElementById('gpaD'),r=document.getElementById('gpaR');if(t==='40'){var v=Math.round(parseInt(s.value)/100*40);s.min=0;s.max=40;s.step=1;s.value=v;d.textContent=(v/10).toFixed(1);r.innerHTML='<span>0</span><span>2.0</span><span>4.0</span>'}else{var v=Math.round(parseInt(s.value)/40*100);s.min=0;s.max=100;s.step=1;s.value=v;d.textContent=v;r.innerHTML='<span>0</span><span>50</span><span>100</span>'}}
+
 function getCareers(){return Array.from(document.querySelectorAll('.car-cb:checked')).map(function(c){return c.value})}
 function getLang(){var r=parseFloat(document.getElementById('lang').value),t=document.getElementById('langType').value;if(t==='toefl')return r;var m={};for(var i=0;i<=9;i+=0.5)m[i]=0;m[0]=0;m[0.5]=0;m[1]=0;m[1.5]=1;m[2]=1;m[2.5]=1;m[3]=2;m[3.5]=2;m[4]=2;m[4.5]=3;m[5]=3;m[5.5]=4;m[6]=5;m[6.5]=6;m[7]=6;m[7.5]=6;m[8]=6;m[8.5]=6;m[9]=6;return m[r]||Math.round(r/1.5)}
 function lim(g){if(g>=88)return 3;if(g>=86)return 2;if(g>=84)return 1;return 1}
@@ -169,7 +173,7 @@ return{ok:true,note:''};
 }
 
 function go(){
-var st={g:parseInt(document.getElementById('gpa').value),gr:document.getElementById('grade').value,la:getLang(),d:document.getElementById('dir').value,c:getCareers(),alg:parseInt(document.getElementById('alg').value),ipc:parseInt(document.getElementById('ipc').value),his:parseInt(document.getElementById('his').value),geo:parseInt(document.getElementById('geo').value),ap:parseInt(document.getElementById('apScore').value),bio:parseInt(document.getElementById('bio').value)};var tk=getTakenCourses(),tkMap=getTakenMap(tk);
+var _gp=document.getElementById('gpa'),_gt=document.getElementById('gpaType').value;var st={g:_gt==='40'?Math.round(parseInt(_gp.value)/40*100):parseInt(_gp.value),gr:document.getElementById('grade').value,la:getLang(),d:document.getElementById('dir').value,c:getCareers(),alg:parseInt(document.getElementById('alg').value),ipc:parseInt(document.getElementById('ipc').value),his:parseInt(document.getElementById('his').value),geo:parseInt(document.getElementById('geo').value),ap:parseInt(document.getElementById('apScore').value),bio:parseInt(document.getElementById('bio').value)};var tk=getTakenCourses(),tkMap=getTakenMap(tk);
 var mx=lim(st.g);document.getElementById('mx').textContent=mx;
 document.getElementById('ch').innerHTML=' <span class="ch '+(st.g>=86?'g':st.g>=84?'y':'r')+'">GPA'+st.g+',可选'+mx+'门</span>';
 document.querySelectorAll('.ck').forEach(function(c){c.checked=false});document.getElementById('sc').textContent='0';
@@ -238,7 +242,7 @@ var body=encodeURIComponent(text);window.open('mailto:'+email+'?subject='+encode
 document.querySelectorAll('.pitem[data-target]').forEach(function(el){var t=document.getElementById(el.dataset.target);if(t)t.disabled=true});
 
 document.querySelectorAll('.pitem[data-target]').forEach(function(el){el.addEventListener('click',function(e){if(e.target.type!=='checkbox')togglePre(el,e)})});
-['gpa','alg','ipc','his','geo','bio'].forEach(function(id){var el=document.getElementById(id),d=document.getElementById(id+'D');if(el&&d){el.addEventListener('input',function(){d.textContent=el.value})}});
+var ge=document.getElementById('gpa'),gd=document.getElementById('gpaD');if(ge&&gd){ge.addEventListener('input',function(){gd.textContent=document.getElementById('gpaType').value==='40'?(parseInt(ge.value)/10).toFixed(1):ge.value})};['alg','ipc','his','geo','bio'].forEach(function(id){var el=document.getElementById(id),d=document.getElementById(id+'D');if(el&&d){el.addEventListener('input',function(){d.textContent=el.value})}});
 
 var _e;
 _e=document.querySelector('.taken-add');if(_e)_e.addEventListener('click',addTakenRow);
@@ -252,6 +256,7 @@ document.addEventListener('click',function(e){if(e.target.getAttribute('data-rmv
 
 
 document.getElementById('langType').addEventListener('change',swLang);
+document.getElementById('gpaType').addEventListener('change',swGpa);
 document.getElementById('lang').addEventListener('input',udLang);
 addTakenRow();
 go();
